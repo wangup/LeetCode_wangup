@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>括号生成</title>
+</head>
+
+<body>
+    <!-- 给出n对括号，请编写一个函数来生成所有的由n对括号组成的合法组合。
+例如，给出n=3，解集为：
+"((()))", "(()())", "(())()", "()()()", "()(())" -->
+    <script>
+        function generateParenthesis(n) {
+            let path = ''
+            let res = []
+            generateCore(n, res, path, n, n)
+            return res
+        }
+
+        function generateCore(n, res, path, left, right) {
+            // 最初做错的思路
+            // if (left === 0 && right === 0) {
+            //     res.push(path)
+            //     return
+            // }
+            // if (left > right) {
+            //     return
+            // } else if (left === right) {
+            //     generateCore(n, res, path + '(', left - 1, right)
+            // } else {
+            //     generateCore(n, res, path + ')', left, right - 1)
+            // }
+
+            //     left,right都剩0，用完括号
+            if (left === 0 && right === 0) {
+                res.push(path)
+                return
+            }
+            //     使用一次括号
+            if (left > 0) {
+                generateCore(n, res, path + '(', left - 1, right)
+            }
+            //    使用的右括号小于左括号，所以剩下的right>left
+            if (left < right) {
+                generateCore(n, res, path + ')', left, right - 1)
+            }
+        }
+        let n = 3
+        console.log(generateParenthesis(n))
+    </script>
+</body>
+
+</html>

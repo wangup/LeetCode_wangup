@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数组扁平化处理</title>
+</head>
+
+<body>
+    <script>
+        // 数组扁平化，去重，排序
+        var arr = [
+                [1, 2, 2],
+                [3, 4, 5, 5],
+                [6, 7, 8, 9, [11, 12, [12, 12, 13]]],
+                10
+            ]
+            // 方法一：递归方法
+            // var flatArray = function(arr) {
+            //     let res = []
+            //         // debugger
+            //     for (let i = 0; i < arr.length; i++) {
+            //         if (Array.isArray(arr[i])) {
+            //             res = res.concat(flatArray(arr[i]))
+            //         } else {
+            //             res.push(arr[i])
+            //         }
+            //     }
+            //     return res
+            // }
+            // var setArray = function(arr) {
+            //     let result = flatArray(arr)
+            //     let set = new Set(result)
+            //     // Array.from()将map和set类型转换为数组类型
+            //     return Array.from(set).sort((a, b) => a - b)
+            // }
+            // console.log(setArray(arr))
+
+        // 方法二：
+        // reduce函数,对数组的每一项进行处理，用reduce来实现数组的拼接
+        // var flatArray = function(arr) {
+        //     return arr.reduce((pre, next) => {
+        //         return pre.concat(Array.isArray(next) ? flatArray(next) : next)
+        //     }, [])
+        // }
+
+
+        //方法三：
+        // var flatArray = function(arr) {
+        //     return arr.toString().split(',')
+        // }
+
+        // 方法四：some+。。。arr
+        var flatArray = function(arr) {
+            let i = 0
+            while (arr.some(item => Array.isArray(item))) {
+                console.log(i++ + 'arr:' + arr + 'item:', ...arr)
+                arr = [].concat(...arr)
+            }
+            return arr
+        }
+
+        console.log(flatArray(arr), ...arr)
+
+        // https://wenku.baidu.com/view/8edd32870329bd64783e0912a216147917117e65.html
+        // 供参考的网址
+    </script>
+</body>
+
+</html>

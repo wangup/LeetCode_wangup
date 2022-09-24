@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>持续的动画效果</title>
+    <style>
+        #ee {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            background-color: aqua;
+            animation: moveBox 5s infinite;
+            /* 动画在奇数次（1、3、5...）正向播放，在偶数次（2、4、6...）反向播放。 */
+            animation-direction: alternate;
+        }
+        
+        @keyframes moveBox {
+            from {
+                left: 0;
+            }
+            to {
+                left: 100px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="ee"></div>
+    <script>
+        let e = document.getElementById('ee')
+        let flag = true
+        let left = 0
+            // setInterval(() => {
+            //         left === 0 ? flag = true : left === 10 ? flag = false : ''
+            //         flag ? ee.style.left = `${left++}px` : ee.style.left = `${left--}px`
+            //     }, 1000)
+
+        // function render() {
+        //     left == 0 ? flag = true : left == 100 ? flag = false : '';
+        //     flag ? e.style.left = ` ${left++}px` :
+        //         e.style.left = ` ${left--}px`;
+        // }
+        // (function animation() {
+        //     render()
+        //     requestAnimationFrame(animation)
+        // })()
+    </script>
+</body>
+
+</html>

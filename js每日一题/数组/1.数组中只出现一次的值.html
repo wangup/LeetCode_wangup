@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数组中只出现一次的值</title>
+</head>
+
+<body>
+    <script>
+        let arr = [1, 4, 3, 2, 4, 3, 1]
+            // 方法一，用map解决
+            // 利用map的key -value 特性属性存储数据
+            // 找出其实value值为1对应的key值
+            // var findArrOne = function(arr) {
+            //     // let map = new Map()
+            //     let map = {}
+            //     for (let item of arr) {
+            //         // console.log('item', item) 1,4,3,2,4,3,1
+            //         if (!map[item]) {
+            //             map[item] = 1
+            //         } else {
+            //             map[item]++
+            //         }
+            //      // console.log(map[item]) 1,2
+            //     }
+            //     for (let key in arr) {
+            // // console.log(key) 0,1,2,3,4,5,6
+            //         if (map[key] === 1) {
+            //             return key
+            //         }
+            //     }
+            // }
+
+        // map
+        // let findArrOne = function(arr) {
+        //     let map = new Map()
+        //     for (let key = 0; key < arr.length; key++) {
+        //         // console.log(key) //0,1,2,3,4,5,6
+        //         let num = arr[key]
+        //         if (map.has(num)) {
+        //             map.delete(num)
+        //                 // console.log(map.get(num))
+        //         } else {
+        //             map.set(num, key)
+        //         }
+        //     }
+        //     // 将map转换成数组，最后扁平化取得数字
+        //     let str = Array.from(map)
+        //     return str.flat()[0]
+        // }
+
+        // 方法二：数字第一次出现与最后一次出现相同,就是我们查找的值
+        // let findArrOne = function(arr) {
+        //     for (let item of arr) {
+        //         if (arr.indexOf(item) === arr.lastIndexOf(item)) {
+        //             return item
+        //         }
+        //     }
+        // }
+
+        // 方法三
+        // 通过异或
+        let findArrOne = function(arr) {
+            let num = arr[0]
+            for (let i = 1; i < arr.length; i++) {
+                num ^= arr[i]
+                    // console.log('num', num)
+            }
+            return num
+        }
+
+        console.log(findArrOne(arr))
+    </script>
+</body>
+
+</html>

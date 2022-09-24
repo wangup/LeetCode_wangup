@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>二叉树的层次遍历</title>
+</head>
+
+<body>
+    <script>
+        // 一层一层地推进结果数组中,
+        // 先从已经进入的节点判断它是否有左右节点
+        var levelOrder = function(root) {
+            let res = []
+            if (!root) return res
+            let queue = [root]
+                // queue.length>0很重要
+            while (queue.length > 0) {
+                let arr = []
+                let len = queue.length
+                for (let i = 0; i < len; i++) {
+                    let node = queue.shift()
+                    arr.push(node.val)
+                    node.left && queue.push(node.left)
+                    node.right && queue.push(node.right)
+                }
+                res.push(arr)
+            }
+            return res
+        }
+    </script>
+</body>
+
+</html>

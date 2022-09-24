@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>剑指offer03数组中重复的值</title>
+</head>
+
+<body>
+    <script>
+        function duplicate(numbers) {
+            if (!numbers || numbers.length <= 0) return -1
+            for (let i in numbers) {
+                while (numbers[i] != i) {
+                    if (numbers[i] === numbers[numbers[i]]) {
+                        return numbers[i]
+                    }
+                    let temp = numbers[i];
+                    [numbers[i], numbers[temp]] = [numbers[temp], numbers[i]]
+                }
+            }
+        }
+        const numbers = [2, 3, 1, 0, 2, 5, 3]
+        console.log(duplicate(numbers))
+    </script>
+</body>
+
+</html>

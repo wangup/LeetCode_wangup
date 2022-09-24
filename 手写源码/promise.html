@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>promise</title>
+</head>
+
+<body>
+    <script>
+        // 1.基本结构
+        function myPromise(executor) {
+            let self = this
+                // 状态
+            self.status = 'pending'
+                // 成功之后，返回数据
+            self.value = null
+                // 失败的原因
+            self.reason = null
+                // 暂存区
+            self.onFulfilledCallbacks = []
+            self.onRejectedCallbacks = []
+
+            // 返回成功的结果
+            function resolve(value) {
+                setTimeout(function() {
+                    if (self.status === 'pending') {
+                        // 保存成功结果
+                        self.value = value
+                        self.status = 'fulfilled'
+
+                        // 因为异步，所以不会一下子更新，所以状态的改变，依次取出
+                        self.onFulfilledCallbacks.forEach(item => item(value))
+                    }
+                })
+            }
+
+            // 返回失败的原因
+            function reject(reason) {
+                setTimeout(function() {
+                    if (self.status === 'pending') {
+                        // 失败原因
+                        self.reason = reason
+                        self.status = 'rejected'
+
+                        self.onRejectedCallbacks.forEach(item => item(reason))
+                    }
+                })
+            }
+            // executor立即执行，
+            // 很重要，能让函数立即执行
+            try {
+                executor && executor(resolve, reject)
+            } catch {
+                reject(err)
+            }
+        }
+        // 2.then  不论成功或者失败都能走进来
+        myPromise.prototype.then = function(onFulfilled, onRejected) {
+            // 确保传进来的是方法，如果不是   定义一个方法
+            console.log('then', typeof onFulfilled, typeof onRejected)
+            onFulfilled = typeof onFulfilled === 'function' ? onFulfilled : function(data) {
+                resolve(data)
+            }
+            onRejected = typeof onRejected === 'function' ? onRejected : function(err) {
+                throw err
+            }
+
+            // 8.暂存回调函数
+            let self = this
+            if (self.status === 'pending') {
+                self.onFulfilledCallbacks.push(onFulfilled)
+                self.onRejectedCallbacks.push(onRejected)
+            }
+
+
+            // if(self.status === 'fulfilled'){
+            //   return new myPromise((resolve,reject) => {
+            //     try{
+            //       let x = onFulfilled(self.value)
+            //       x instanceof myPromise? x.then(resolve,reject): resolve(x)
+            //     }catch(err){
+            //       reject(err)
+            //     }
+            //   })
+            // }
+
+            // if(self.status === 'rejected'){
+            //   return new myPromise((resolve,reject) => {
+            //     try{
+            //       let x = onRejected(self.reason)
+            //       x instanceof myPromise? x.then(resolve,reject): resolve(x)
+            //     }catch(err){
+            //       reject(err)
+            //     }
+            //   })
+            // }
+
+            // if(self.status === 'pending'){
+            //   return new myPromise((resolve,reject) => {
+            //     self.onFulfilledCallbacks.push(()=>{
+            //       let x = onFulfilled(self.value)
+            //       x instanceof myPromise ? x.then(resolve,reject) : resolve(x)
+            //     })
+
+            //     self.onRejectedCallbacks.push(() => {
+            //       let x = onRejected(self.reason)
+            //       x instanceof myPromise ? x.then(resolve,reject) : resolve(x)
+            //     })
+            //   })
+            // }
+        }
+
+        myPromise.prototype.catch = function(fn) {
+            return this.then(null, fn)
+        }
+
+        // 调用myPromise
+        let my = new myPromise((resolve, reject) => {
+            console.log('111')
+            setTimeout(() => {
+                resolve(22222)
+            }, 1000)
+        })
+        console.log('my', my)
+        my.then(data => {
+            console.log('data', data)
+        })
+    </script>
+</body>
+
+</html>

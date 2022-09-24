@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>原型链继承</title>
+</head>
+
+<body>
+    <script>
+        function Parent1() {
+            this.name = 'parent1 的属性';
+        }
+
+        function Child1() {
+            this.type = 'child1 的属性';
+        }
+        Child1.prototype = new Parent1() //【重要】
+
+        Parent1.prototype.say = function() {
+            this.say = 'say属性'
+        }
+        Parent1.prototype.code = 'name'
+        let child = new Child1()
+        child.name = 'cocococ'
+        console.log(child);
+    </script>
+</body>
+
+</html>

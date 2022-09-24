@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>插入排序</title>
+</head>
+
+<body>
+    <script>
+        // 稳定
+        // function sortNum(nums) {
+        //     let len = nums.length
+        //     for (let i = 1; i < len; i++) {
+        //         const cur = nums[i]
+        //         let pre = i - 1
+        //         while (pre >= 0 && nums[pre] > cur) {
+        //             nums[pre + 1] = nums[pre]
+        //             pre--
+        //         }
+        //         nums[pre + 1] = cur
+        //     }
+        //     return nums
+        // }
+        const nums = [9, 3, 4, 2, 16, 1, 6, 8]
+        console.log(sortNum(nums))
+
+        function sortNum(nums) {
+            let len = nums.length
+            for (let i = 1; i < len; i++) {
+                let target = i
+                for (let j = i - 1; j >= 0; j--) {
+                    if (nums[j] > nums[target]) {
+                        // [nums[target], nums[j]] = [nums[j], nums[target]]
+                        let temp = nums[j]
+                        nums[j] = nums[target]
+                        nums[target] = temp
+                        target = j
+                    } else {
+                        break
+                    }
+                }
+            }
+            return nums
+        }
+    </script>
+</body>
+
+</html>

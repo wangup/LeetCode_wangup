@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- <script>
+        function A(age, age2) {
+            return [this.name, age, age2]
+        }
+        var b = {
+            name: 'zxx'
+        }
+        var a = A.apply(b, [26, 13])
+        var ac = A.call(b, 26, 13)
+        console.log(a, 'a') // ['zxx', 26, 13]
+        console.log(ac, 'ac') // ['zxx', 26, 13]
+    </script> -->
+    <!-- <script>
+        var name = 'wmc'
+        var obj = {
+            name: 'kkkkk',
+            getName: function() {
+                var that = this
+                console.log('that', that)
+                    // 匿名函数指向全局
+                return function() {
+                    return that.name
+                }
+            }
+        }
+        console.log(obj.getName()()) //wmc
+    </script> -->
+    <script>
+        function createCounter() {
+            let count = 0;
+
+            function increase() {
+                count++;
+            }
+            let message = `Count is ${count}`;
+
+
+            function log() {
+                let message = `Count is ${count}`;
+                console.log(message);
+            }
+
+
+            return [increase, log];
+        }
+        const [increase, log] = createCounter();
+        // increase();
+        // increase();
+        // increase();
+        // log();
+
+        (function d(num) {
+
+            console.log(num, 'num')
+
+            var num = 10
+
+            function num() {}
+        }(100))
+
+
+        function m() {
+            console.log('a1', a1)
+            console.log('a2', a2)
+            console.log('b1', b1)
+            console.log('b2', b2)
+            if (false) {
+                function b1() {}
+                var a1 = 100
+            }
+            if (true) {
+                function b2() {}
+                var a2 = 10
+            }
+            console.log('a1111', a1)
+            console.log('a2222', a2)
+            console.log('b1111', b1)
+            console.log('b2222', b2)
+        }
+
+        m()
+
+        function n() {
+            if (2 > 1) {
+                arr = 10
+                brr = 20
+                    // let arr
+                var brr
+                console.log(brr, 'brr')
+                console.log(arr, 'arr')
+            }
+        }
+        n()
+    </script>
+</body>
+
+</html>

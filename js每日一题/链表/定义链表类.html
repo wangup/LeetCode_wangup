@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>定义链表类</title>
+</head>
+
+<body>
+    <script>
+        class Node {
+            // 构造函数
+            constructor(val) {
+                this.val = val
+                this.next = null
+            }
+        }
+
+        class LinkedList {
+            // 链表类
+            constructor() {
+                    this.head = null
+                    this.length = 0
+                }
+                // 新增节点
+            append(val) {
+                    let node = new Node(val)
+                    let current //暂存当前位置
+                    if (!this.head) {
+                        // 如果头节点为空，当前节点作为头节点
+                        this.head = node
+                    } else {
+                        current = this.head
+                        while (current.next) {
+                            current = current.next
+                        }
+                        current.next = node
+                    }
+                    this.length++
+                }
+                // 删除节点，并获得删除节点的值
+            removeAt(index) {
+                    if (index > -1 && index < this.length) {
+                        let current = this.head
+                        let previous, position = 0
+                        if (index === 0) {
+                            this.head = current.next
+                        } else {
+                            while (position++ < index) {
+                                previous = current
+                                current = current.next
+                            }
+                            previous.next = current.next
+                        }
+                        this.length--
+                            return current.val
+                    } else {
+                        return null
+                    }
+                }
+                // 插入节点
+            insert(index, val) {
+                    if (index > -1 && index <= this.length) {
+                        let node = new Node(val)
+                        let current = this.head
+                        let previous, position = 0
+                        if (index === 0) {
+                            node.next = current
+                            this.head = node
+                        } else {
+                            while (position++ < index) {
+                                previous = current
+                                current = current / next
+                            }
+                            node.next = current
+                            previous.next = node
+                        }
+                        this.length++
+                            // 插入成功
+                            return true
+                    } else {
+                        // 插入失败
+                        return false
+                    }
+                }
+                // 获取索引
+            indexOf(val) {
+                    let current = this.head
+                    let position = 0
+                    while (current) {
+                        if (current.val === val) {
+                            return position
+                        }
+                        position++
+                        current = current.next
+                    }
+                    return -1
+                }
+                // 将链表转换成字符串
+            toString() {
+                    let current = this.head
+                    let string = ''
+                    while (current) {
+                        string += current.val + (current.next ? ',' : '')
+                        current = current.next
+                    }
+                    return string
+                }
+                // 链表长度
+            size() {
+                    return this.length
+                }
+                // 判断链表是否为空
+            isEmpty() {
+                return this.length === 0
+            }
+        }
+    </script>
+</body>
+
+</html>

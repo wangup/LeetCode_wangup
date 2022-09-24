@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #contianer {
+            width: 100px;
+            height: 150px;
+            box-sizing: border-box;
+            margin: 40px;
+            border: 10px solid #cccccc;
+            padding: 20px;
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="contianer">
+
+    </div>
+    <script>
+        let box = document.getElementById('contianer')
+        console.log('offsetWidth：', box.offsetWidth)
+        console.log('offsetHeight：', box.offsetHeight)
+        console.log('clientWidth：', box.clientWidth)
+        console.log('clientHeight：', box.clientHeight)
+    </script>
+</body>
+
+</html>

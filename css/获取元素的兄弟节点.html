@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="main">
+        <div id="one">
+            <div id="list">
+                <div id="li">
+                    <div id="box"></div>
+                </div>
+                <div id="liList"></div>
+            </div>
+        </div>
+        <div id="two"></div>
+    </div>
+    <script>
+        // let el = document.getElementById('main').getElementsByTagName('div')
+        let el = document.getElementById('main')
+        let depth = 4
+        let res = null
+
+        function core(el, depth) {
+            if (depth === 1) {
+                res = el.id
+                return
+            }
+            console.log(el,
+                'el')
+            let elem = el.firstElementChild
+            core(elem, depth - 1)
+        }
+        core(el, depth)
+        console.log(res, 'elem')
+    </script>
+</body>
+
+</html>

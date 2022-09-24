@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>冒泡排序</title>
+</head>
+
+<body>
+    <script>
+        // 当为正序时，只需要遍历一次，时间复杂度为n
+        // 当为反序是，N-1趟排序，每趟排序要进行n-i次的比较
+        function sortNum(arr) {
+            let len = arr.length
+            for (let i = 0; i < len; i++) {
+                for (let j = 0; j < len - i - 1; j++) {
+                    if (arr[j] > arr[j + 1]) {
+                        let temp = arr[j]
+                        arr[j] = arr[j + 1]
+                        arr[j + 1] = temp
+                    }
+                }
+            }
+            return arr
+        }
+        const nums = [9, 3, 4, 2, 6, 1, 6, 8]
+        console.log(sortNum(nums))
+    </script>
+</body>
+
+</html>

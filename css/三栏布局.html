@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>三栏布局</title>
+    <style>
+        .container {
+            /* position: relative;
+            top: 0;
+            left: 0; */
+            overflow: hidden;
+        }
+        
+        .left {
+            /* position: absolute;
+            top: 0;
+            left: 0; */
+            float: left;
+            width: 200px;
+            height: 100px;
+            background-color: aqua;
+        }
+        
+        .mid {
+            /* position: absolute;
+            top: 0;
+            left: 200px;
+            right: 200px; */
+            /* width: auto; */
+            height: 100px;
+            margin: 0 200px;
+            background-color: rosybrown;
+        }
+        
+        .right {
+            /* position: absolute;
+            top: 0;
+            right: 0px; */
+            float: right;
+            width: 200px;
+            height: 100px;
+            background-color: rebeccapurple;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="left"></div>
+        <div class="right"></div>
+        <div class="mid"></div>
+    </div>
+</body>
+
+</html>

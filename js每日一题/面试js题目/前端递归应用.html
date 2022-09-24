@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>前端递归应用</title>
+</head>
+
+<body>
+    <div class="1">
+        <div class="21"></div>
+        <div class="22">
+            <div class="3">
+                <div class="4"></div>
+            </div>
+        </div>
+    </div>
+    <script>
+        let obj = {
+            name: 'w',
+            child: {
+                name: 'm',
+                child: {
+                    name: 'c',
+                    child: {
+                        name: 'd',
+                        child: {
+                            name: 'e'
+                        }
+                    }
+                }
+            }
+        }
+
+        function deepTree(obj, n, m, res) {
+            if (n === m) {
+                return res
+            }
+            for (let item in obj) {
+                if (item === 'child') {
+                    // res.push(obj.name)
+                    res.push(obj[item])
+                    deepTree(obj[item], n, m + 1, res)
+                }
+            }
+        }
+        let res = []
+        deepTree(obj, 4, 0, res)
+        console.log(res)
+    </script>
+</body>
+
+</html>

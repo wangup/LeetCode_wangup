@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>提取URL各个参数</title>
+</head>
+
+<body>
+    <script>
+        function getUrl(url) {
+            let result = {}
+            url = url.split('?')
+            let arr = url[1].split('&')
+            let len = arr.length
+            for (let i = 0; i < len; i++) {
+                let [key, value] = arr[i].split('=')
+                result[key] = value
+            }
+            return result
+        }
+        let url = 'http://item.taobao.com/item.htm?a=1&b=2&c=&d=xxx&e'
+        console.log(getUrl(url))
+    </script>
+</body>
+
+</html>

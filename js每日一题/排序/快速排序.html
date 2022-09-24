@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>排序算法</title>
+</head>
+
+<body>
+    <!-- <script>
+        function sortNum(num, left, right) {
+            if (left >= right) return
+            let target = num[left]
+            let start = left
+            let end = right
+            while (start < end) {
+                //从右向左找，比target大，right--
+                while (start < end && target <= num[end]) {
+                    end--
+                }
+                //比target小，替换start所在位置的数字
+                num[start] = num[end]
+                    //从左向右找，比target小，start++
+                while (start < end && target >= num[start]) {
+                    start++
+                }
+                //比target大，替换end所在位置的数字
+                num[end] = num[start]
+            }
+            //比target小，替换start所在位置的数字
+            num[start] = target
+            sortNum(num, left, start - 1)
+            sortNum(num, start + 1, right)
+            return num
+        }
+        var num = [9, 3, 4, 2, 16, 1, 6, 8]
+        let len = num.length - 1
+        console.log(sortNum(num, 0, len))
+    </script> -->
+    <!-- <script>
+        function partition(num, left, right) {
+            if (left >= right) return
+            let target = num[left]
+            let start = left
+            let end = right
+            while (start < end) {
+                //从右向左找，比target大，right--
+                while (start < end && target <= num[end]) {
+                    end--
+                }
+                //比target小，替换start所在位置的数字
+                num[start] = num[end]
+                    //从左向右找，比target小，start++
+                while (start < end && target >= num[start]) {
+                    start++
+                }
+                //比target大，替换end所在位置的数字
+                num[end] = num[start]
+            }
+            //比target小，替换start所在位置的数字
+            num[start] = target
+            return start
+        }
+
+        function quickSort(num, left, right) {
+            if (left >= right) return
+            let index = partition(num, left, right)
+            quickSort(num, left, index - 1)
+            quickSort(num, index + 1, right)
+            return num
+        }
+        var num = [9, 3, 4, 2, 16, 1, 6, 8]
+        let len = num.length - 1
+        console.log(quickSort(num, 0, len))
+    </script> -->
+    <script>
+        function quickSort(num, k) {
+            quick(num, 0, num.length - 1)
+            return num
+        }
+
+        function quick(num, left, right, k) {
+            if (num.length <= 1) return num
+            let index = partition(num, left, right)
+            if (left < index - 1) {
+                quick(num, left, index - 1)
+            }
+            if (right > index) {
+                quick(num, index, right)
+            }
+            // if (index === num.length - k) {
+            //     return num[index]
+            // }
+            // if (left < num.length - k - 1) {
+            //     return quick(num, left, right, k)
+            // }
+            // if (right > num.length - k) {
+            //     return (num, index, right, k)
+            // }
+            return num
+        }
+
+        function partition(num, left, right) {
+            let target = num[Math.floor((left + right) / 2)]
+            let l = left,
+                r = right
+            while (left <= right) {
+                while (num[right] > target) {
+                    right--
+                }
+                while (num[left] < target) {
+                    left++
+                }
+                if (left <= right) {
+                    [num[left], num[right]] = [num[right], num[left]]
+                    right--
+                    left++
+                }
+            }
+            return left
+        }
+        var num = [9, 3, 4, 2, 16, 1, 6, 8]
+        let len = num.length - 1
+        console.log(quickSort(num, 2))
+    </script>
+</body>
+
+</html>

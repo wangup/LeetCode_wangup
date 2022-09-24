@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>无重复字符的最长子串</title>
+</head>
+
+<body>
+    <script>
+        // 给定一个字符串 s ，请你找出其中不含有重复字符的 最长子串 的长度。
+        var lengthOfLongestSubstring = function(s) {
+            let map = new Map()
+            let num = s.split('')
+            let max = 0
+                // pre标记无重复子串开始下标
+                // cur为当前遍历字符下标
+            for (let pre = 0, cur = 0; cur < num.length; cur++) {
+                if (map.has(num[cur])) {
+                    pre = Math.max(map.get(num[cur]) + 1, pre)
+                }
+                max = Math.max(max, cur - pre + 1)
+                map.set(num[cur], cur)
+            }
+            return max
+        };
+        var s = "abcabcbb"
+            // var s = "bbbbb"
+            // var s = " "
+            // var s = "pwwkew"
+        console.log(lengthOfLongestSubstring(s))
+    </script>
+</body>
+
+</html>

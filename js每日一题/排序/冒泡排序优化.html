@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>冒泡排序优化</title>
+</head>
+
+<body>
+    <script>
+        function sortNum(num) {
+            let len = num.length
+            for (let i = 0; i < len - 1; i++) {
+                let flag = true
+                for (let j = 0; j < len - 1 - i; j++) {
+                    if (num[j] > num[j + 1]) {
+                        [num[j], num[j + 1]] = [num[j + 1], num[j]]
+                        flag = false
+                    }
+                }
+                // 一次循环没有冒泡就停止循环
+                if (flag) {
+                    break
+                }
+            }
+            return num
+        }
+        let num = [9, 3, 4, 2, 16, 1, 6, 8]
+        console.log(sortNum(num))
+    </script>
+</body>
+
+</html>

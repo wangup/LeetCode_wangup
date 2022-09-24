@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div>
+        <img src="client.png" data-src="wangmeicheng.jpg" alt="1">
+        <img src="client.png" data-src="re.jpg" alt="2">
+        <img src="client.png" data-src="wangmeicheng.jpg" alt="3">
+        <img src="client.png" data-src="re.jpg" alt="4">
+        <img src="client.png" data-src="wangmeicheng.jpg" alt="5">
+    </div>
+    <script>
+        let img = document.querySelectorAll('img')
+            // let len = document.getElementsByTagName('img').length
+        let len = document.querySelectorAll('img').length
+        console.log(img[0].getAttribute('src'), 'src')
+
+        window.onscroll = lazyLoad()
+
+        function lazyLoad() {
+            let seeHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
+            let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+            let n = 0
+            for (let i = n; i < len; i++) {
+                // 图片距离内容顶部的偏移量(offsetTop)
+                if (img[i].offsetTop < seeHeight + scrollTop) {
+                    img[i].src = img[i].getAttribute('data-src')
+                }
+                n = i + 1
+            }
+        }
+    </script>
+</body>
+
+</html>

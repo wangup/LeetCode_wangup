@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <div class="1">
+        <div class="wo"></div>
+        <div class="2">
+            <div class="3">
+                <div class="4"></div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var targetClass //要指定的Class的字符串
+        function addClass(root, level, tagName) {
+            //tagName只是一个目标节点的属性，可以是它的标签名，也可以是它的位置信息（如它是同层级下的第二个元素）
+            let Node = root
+            try {
+                for (let i = 0; i < level - 1; i++) { //循环level-1次，获取第level层的所有节点
+                    //使用children接口，返回当前节点的子节点集合
+                    let childrenArr = [...Node.children]
+                        //由于题目中没有说明每一层选择节点的条件，我这里假设每次遍历都使用第一个子节点
+                    Node = childrenArr[0]
+                }
+                //从level层的所有节点中，选出符合条件的目标节点
+                let target = Node.querySelector(tagName)[0]
+                    //节点的classList属性返回一个类似数组的对象，当前元素节点的每个class就是这个对象的一个成员。
+                    //add方法用于向classList集合添加一个class
+                target.classList.add(targetClass)
+            } catch (err) {
+                console.log(err)
+            }
+        }
+        let box = document.querySelector('.box')
+        console.log(box, 'div')
+        console.log('div', addClass(box, 4, 'div'))
+    </script>
+</body>
+
+</html>

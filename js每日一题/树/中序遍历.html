@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>中序遍历</title>
+</head>
+
+<body>
+    <script>
+        function inorderTraversal(root) {
+            // 存放结果的数组
+            let res = []
+            if (!root) return []
+            let stack = []
+            while (stack.length || root) {
+                while (stack.length || root) {
+                    while (root) {
+                        stack.push(root)
+                        root = root.left
+                    }
+                    root = stack.pop()
+                    res.push(root.val)
+                    root = root.right
+                }
+            }
+            return res
+        }
+    </script>
+</body>
+
+</html>

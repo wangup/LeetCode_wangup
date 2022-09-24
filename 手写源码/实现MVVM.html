@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>实现MVVM</title>
+</head>
+
+<body>
+    <input type="text" id="input">
+    <script>
+        let data = {}
+        let input = document.getElementById('input')
+        Object.defineProperty(data, 'text', {
+            set(value) {
+                input.value = value
+                this.value = value
+            }
+        })
+        input.onChange = function(e) {
+            data.text = e.target.value
+        }
+        console.log('input', input)
+    </script>
+</body>
+
+</html>

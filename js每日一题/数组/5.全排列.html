@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>全排列</title>
+</head>
+
+<body>
+    <!-- 给定一个不含重复数字的数组 nums ，返回其 所有可能的全排列 。你可以 按任意顺序 返回答案。 -->
+    <script>
+        let nums = [1, 2, 3]
+        var permute = function(nums) {
+            let flag = false //判断是否采用这个数据
+            for (let i = 0; i < nums.length; i++) {
+                console.log()
+            }
+        };
+        var sortList = function(nums) {
+            let flag = [true]
+            for (let j = 0; j < nums.length; j++) {
+                flag[nums[j]] = false
+                if (flag[nums[j]]) {
+                    sortList(j + 1)
+                }
+            }
+        }
+        console.log(permute(nums))
+    </script>
+
+</body>
+
+</html>

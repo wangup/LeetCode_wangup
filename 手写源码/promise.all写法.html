@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>all写法</title>
+</head>
+
+<body>
+    <script>
+        var PENDING = 'pending';
+        var FULFILLED = 'fulfilled';
+        var REJECTED = 'rejected';
+
+        function Promise(execute) {
+            var that = this;
+            that.state = PENDING;
+            that.onFulfilledFn = [];
+            that.onRejectedFn = [];
+
+            function resolve(value) {
+                if (value instanceof Promise) {
+                    return value.then(resolve, reject)
+                }
+                setTimeout(function() {
+                    if (that.state === PENDING) {
+                        that.state = FULFILLED;
+                        that.value = value;
+                        that.onFulfilledFn.forEach(function(f) {
+                            f(that.value);
+                        });
+                    }
+                });
+            }
+
+            function reject(reason) {
+                setTimeout(function() {
+                    if (that.state === PENDING) {
+                        that.state = REJECTED;
+                        that.reason = reason;
+                        that.onRejectedFn.forEach(function(f) {
+                            f(that.reason);
+                        });
+                    }
+                });
+            }
+            try {
+                execute(resolve, reject);
+            } catch (e) {
+                reject(e);
+            }
+        }
+        Promise.prototype.then = function(onFulfilled, onRejected) {
+            onFulfilled =
+                typeof onFulfilled === 'function' ?
+                onFulfilled :
+                function(x) {
+                    return x;
+                };
+            onRejected =
+                typeof onRejected === 'function' ?
+                onRejected :
+                function(e) {
+                    throw e;
+                };
+            var that = this;
+            var promise;
+            if (that.state === FULFILLED) {
+                promise = new Promise(function(resolve, reject) {
+                    setTimeout(function() {
+                        try {
+                            var x = onFulfilled(that.value);
+                            resolvePromise(promise, x, resolve, reject);
+                        } catch (reason) {
+                            reject(reason);
+                        }
+                    });
+                });
+            }
+            if (that.state === REJECTED) {
+                promise = new Promise(function(resolve, reject) {
+                    setTimeout(function() {
+                        try {
+                            var x = onRejected(that.reason);
+                            resolvePromise(promise, x, resolve, reject);
+                        } catch (reason) {
+                            reject(reason);
+                        }
+                    });
+                });
+            }
+            if (that.state === PENDING) {
+                promise = new Promise(function(resolve, reject) {
+                    that.onFulfilledFn.push(function() {
+                        try {
+                            var x = onFulfilled(that.value);
+                            resolvePromise(promise, x, resolve, reject);
+                        } catch (reason) {
+                            reject(reason);
+                        }
+                    });
+                    that.onRejectedFn.push(function() {
+                        try {
+                            var x = onRejected(that.reason);
+                            resolvePromise(promise, x, resolve, reject);
+                        } catch (reason) {
+                            reject(reason);
+                        }
+                    });
+                });
+            }
+            return promise;
+        };
+
+        function resolvePromise(promise, x, resolve, reject) {
+            if (promise === x) {
+                return reject(new TypeError('x 不能与 promise 相等'));
+            }
+            if (x instanceof Promise) {
+                if (x.state === FULFILLED) {
+                    resolve(x.value);
+                } else if (x.state === REJECTED) {
+                    reject(x.reason);
+                } else {
+                    x.then(function(y) {
+                        resolvePromise(promise, y, resolve, reject);
+                    }, reject);
+                }
+            } else if (x !== null && (typeof x === 'object' || typeof x === 'function')) {
+                var executed;
+                try {
+                    var then = x.then;
+                    if (typeof then === 'function') {
+                        then.call(
+                            x,
+                            function(y) {
+                                if (executed) return;
+                                executed = true;
+                                resolvePromise(promise, y, resolve, reject);
+                            },
+                            function(e) {
+                                if (executed) return;
+                                executed = true;
+                                reject(e);
+                            }
+                        );
+                    } else {
+                        resolve(x);
+                    }
+                } catch (e) {
+                    if (executed) return;
+                    executed = true;
+                    reject(e);
+                }
+            } else {
+                resolve(x);
+            }
+        }
+
+        Promise.resolve = function(value) {
+            if (value instanceof Promise) {
+                return value;
+            }
+
+            return new Promise(function(resolve, reject) {
+                resolve(value);
+            });
+        }
+
+
+        Promise.prototype.catch = function(onRejected) {
+            return this.then(null, onRejected)
+        }
+
+        Promise.all = function(promiseArr) {
+            return new Promise(function(resolve, reject) {
+                let count = 0
+                let len = promiseArr.length
+                let result = []
+                if (len === 0) {
+                    return resolve(result)
+                }
+                for (let item of promiseArr) {
+                    Promise.resolve(item).then(function(value) {
+                        result.push(value)
+                        count++
+                        if (count === len) {
+                            return resolve(result)
+                        }
+                    }, function(reason) {
+                        return reject(reason)
+                    })
+
+                }
+            })
+        }
+
+        Promise.race = function(promiseArr) {
+            return new Promise(function(resolve, reject) {
+                let count = 0
+                let result = []
+                let len = promiseArr.length
+                for (let [i, item] of promiseArr.entries()) {
+                    Promise.resolve(item).then(function(value) {
+                        return resolve(value)
+                    }, function(reason) {
+                        return reject(reason)
+                    })
+                }
+            })
+        }
+
+        Promise.any = function(promiseArr) {
+            return new Promise(function(resolve, reject) {
+                let result = []
+                let count = 0
+                let len = promiseArr.length
+                if (len === 0) {
+                    return resolve(result)
+                }
+                for (let item of promiseArr) {
+                    Promise.resolve(item).then(data => {
+                        return resolve(data)
+                    }, reason => {
+                        result[count++] = reason
+                        if (count === len) {
+                            return reject(result)
+                        }
+                    })
+                }
+            })
+        }
+
+        let p1 = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve("p1 is OK!");
+            }, 1000);
+        });
+        let p2 = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve("p2 is OK!");
+            }, 2000);
+        });
+        let p3 = new Promise((resolve, reject) => {
+            setTimeout(reject, 100, 'three')
+        })
+        console.time("cost");
+        Promise.all([p1, p2, p3]).then((res) => {
+            console.log(res, 'resolve Promise.all');
+            // console.timeEnd("cost");
+        }).catch(reason => {
+            console.log('reason', reason)
+        });
+
+        // var obj = {
+        //     'z': 'a',
+        //     't': 'b',
+        //     'www': 'c'
+        // };
+        // Object.getOwnPropertyNames(obj).forEach(item => {
+        //     console.log('item', obj[item])
+        // })
+    </script>
+</body>
+
+</html>

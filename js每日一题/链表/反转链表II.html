@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>反转链表II</title>
+</head>
+
+<body>
+    <script>
+        // 给你单链表的头指针 head 和两个整数 left 和 right ，其中 left <= right 。请你反转从位置 left 到位置 right 的链表节点，返回 反转后的链表 。
+        //  输入：head = [1,2,3,4,5], left = 2, right = 4
+        // 输出：[1,4,3,2,5]
+        var reverseBetween = function(head, left, right) {
+            let init = new ListNode(-1)
+            init.next = head
+            let index = 0
+            let pre = init
+                // <!--   定位在left的前一个节点 -->
+            while (index < left - 1) {
+                pre = pre.next
+                index++
+            }
+            let rightNode = pre
+                // <!-- 定位在right这个节点 -->
+            while (index < right) {
+                rightNode = rightNode.next
+                index++
+            }
+            // <!-- 此时pre为定位在left的前一个节点的其余链表 -->
+            let leftNode = pre.next
+                // <!-- curNode为右边位置的下一个节点 -->
+            let curNode = rightNode.next
+                // <!-- 截断链表，就可以获取到从left到right的链表 -->
+            pre.next = null
+            rightNode.next = null
+                // <!-- 在截取的链表进行反转 -->
+            reverseLinkedList(leftNode)
+                // <!-- 拼接链表，pre在left的前一个,curNode是定位的右边位置的下一个节点 -->
+            pre.next = rightNode
+            leftNode.next = curNode
+
+            return init.next
+        };
+
+        const reverseLinkedList = (head) => {
+            let pre = null;
+            let cur = head;
+
+            while (cur) {
+                const next = cur.next;
+                cur.next = pre;
+                pre = cur;
+                cur = next;
+            }
+            return pre
+        }
+    </script>
+</body>
+
+</html>

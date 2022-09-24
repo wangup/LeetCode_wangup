@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>前序遍历</title>
+</head>
+
+<body>
+    <script>
+        function preorderTraversal(root) {
+            let res = []
+            if (!root) return res
+            let stack = []
+                // 后进先出,
+                // 所以先让根节点出来，然后循环找到这个根节点的左孩子
+
+            // 取根节点为目标节点，开始遍历
+            // 1.访问目标节点
+            // 2.左孩子入栈，直至左孩子为空
+            // 3.左孩子出栈，以右孩子为目标，依次执行1,2,3步骤
+            while (root || stack.length) {
+                while (root) {
+                    res.push(root.val)
+                    stack.push(root)
+                    root = root.left
+                }
+                root = stack.pop()
+                root = root.right
+            }
+            return res
+
+        }
+
+        // var res = [];
+        // if(!root) return res;
+        // var stack = [root];
+        // while(stack.length !== 0){
+        //     var node = stack.pop();
+        //     res.push(node.val);
+        //     if(node.right){
+        //         stack.push(node.right);
+        //     }
+        //     if(node.left){
+        //         stack.push(node.left);
+        //     }
+        // }
+        // return res;
+    </script>
+</body>
+
+</html>

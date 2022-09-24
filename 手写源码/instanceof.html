@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>instanceof源码实现</title>
+</head>
+
+<body>
+    <script>
+        function instance_of(L, R) {
+            // 显示原型
+            let O = R.prototype
+                // 隐式原型
+            L = L.__proto__
+                // 循环遍历，进行判断两个值是否相等，相等返回true，不相等继续查找L的原型链
+            while (true) {
+                if (L === null) {
+                    return false
+                }
+
+                if (L === O) {
+                    return true
+                }
+                L = L.__proto__
+            }
+        }
+        let obj = new Object()
+        console.log(instance_of(obj, Object))
+        console.log(instance_of(obj, Array))
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>双飞翼布局</title>
+    <style>
+        html,
+        body {
+            padding: 0;
+            margin: 0;
+        }
+        
+        .content2 {
+            overflow: hidden;
+        }
+        
+        .left,
+        .main,
+        .right {
+            float: left;
+        }
+        
+        .left {
+            height: 80px;
+            width: 400px;
+            margin-left: -100%;
+            background: red;
+        }
+        
+        .main {
+            height: 80px;
+            width: 100%;
+            background: hotpink;
+        }
+        
+        .center {
+            margin: 0 200px;
+        }
+        
+        .right {
+            height: 80px;
+            width: 200px;
+            margin-left: -200px;
+            background: green;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="content2">
+
+        <div class="main">
+
+            <div class="center">center</div>
+        </div>
+
+        <div class="left">left</div>
+
+        <div class="right">right</div>
+    </div>
+    <script>
+        function fn() {
+            function fun() {
+                let name = 10
+            }
+            fun()
+            console.log(this.name, 'name')
+        }
+        console.log(fn())
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>css和js两种方式实现div右移1000px动画</title>
+    <style>
+        .box {
+            width: 100px;
+            height: 100px;
+            /* margin-left: 0; */
+            background-color: aquamarine;
+            /* transition: margin-left 1s linear; */
+        }
+        /* .box:hover {
+            margin-left: 200px;
+        } */
+    </style>
+</head>
+
+<body>
+    <div class="box">
+
+    </div>
+    <script>
+        let box = document.querySelector('.box')
+        box.onclick = function() {
+            moveBox(300)
+        }
+
+        function moveBox(data) {
+            box.style.position = 'absolute'
+            for (let index = 0; index < data; index++) {
+                setTimeout(() => {
+                    box.style.left = index + 'px'
+                }, index * 10);
+            }
+        }
+    </script>
+</body>
+
+</html>

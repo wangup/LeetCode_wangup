@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>快排zuixin</title>
+</head>
+
+<body>
+    <script>
+        function quickSort(head, left, right) {
+            if (head.length <= 1) {
+                return head
+            }
+            let index = partition(head, left, right)
+            if (left < index - 1) {
+                quickSort(head, left, index - 1)
+            }
+            if (right > index) {
+                quickSort(head, index, right)
+            }
+            return head
+        }
+
+        function partition(head, left, right) {
+            let target = head[Math.floor((left + right) / 2)]
+            while (left <= right) {
+                while (head[right] > target) {
+                    right--
+                }
+                while (head[left] < target) {
+                    left++
+                }
+                if (left <= right) {
+                    [head[right], head[left]] = [head[left], head[right]]
+                    right--
+                    left++
+                }
+            }
+            return left
+        }
+        let num = [1, 3, 2, 4, 5]
+        console.log(quickSort(num, 0, num.length - 1))
+    </script>
+</body>
+
+</html>

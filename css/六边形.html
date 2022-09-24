@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>六边形</title>
+    <style>
+        .box {
+            position: relative;
+            left: 100px;
+            width: 20px;
+            height: 40px;
+            border: 1px solid tan;
+        }
+        
+        .box:before {
+            position: absolute;
+            content: '';
+            display: block;
+            top: 0;
+            /* left: -20px; */
+            right: 20px;
+            width: 0;
+            height: 0;
+            border-top: 20px solid transparent;
+            border-right: 20px solid gold;
+            border-bottom: 20px solid transparent;
+            border-left: none;
+            /* border-left: 20px solid transparent; */
+        }
+        
+        .box:after {
+            position: absolute;
+            content: '';
+            display: block;
+            top: 0;
+            left: 20px;
+            border-top: 20px solid transparent;
+            border-right: none;
+            border-bottom: 20px solid transparent;
+            border-left: 20px solid red;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+
+    </div>
+</body>
+
+</html>

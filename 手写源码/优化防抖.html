@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>优化防抖</title>
+</head>
+
+<body>
+    <button id="btn2">按钮</button>
+    <script>
+        // 防抖有两种执行模式：
+        // 1.在一定动作内执行最后一次动作
+        // 2.在一定动作内只执行首次动作
+        // 如果希望立刻执行函数一次，不用等到事件停止触发后才执行，然后等到停止触发 n 秒后，再可以重新触发执行
+        // 通过添加isImmeDiate来判断是否立刻执行
+        // function debounce(func, wait, immediate = false) {
+        //     let time = null
+        //     const debounced = function() {
+        //         let that = this
+        //         let args = arguments
+        //         let result
+        //         if (time) clearTimeout(time)
+        //         if (immediate) {
+        //             // 立即执行,首次执行
+        //             // 判断是否已经执行过，不要重复执行
+        //             let flag = !time
+        //             time = setTimeout(() => {
+        //                 time = null
+        //             }, wait)
+        //             if (flag) {
+        //                 result = func.apply(that, args)
+        //             }
+        //         } else {
+        //             // 最后一次执行
+        //             time = setTimeout(() => {
+        //                 func.apply(that, args)
+        //             }, wait)
+        //         }
+        //         return result
+        //     }
+        //     debounced.prototype.cancel = function() {
+        //         clearTimeout(time)
+        //         time = null
+        //     }
+        //     return debounced
+        // }
+        function debounce(func, wait, immediate = false) {
+            let timer = null
+            return function() {
+                let context = this
+                let args = arguments
+                if (timer) clearTimeout(timer)
+                if (immediate && !timer) {
+                    func.apply(context, args)
+                }
+                timer = setTimeout(() => {
+                    func.apply(context, args)
+                }, wait)
+            }
+        }
+
+        function getBtn() {
+            console.log('getBtn')
+        }
+        var btn = document.getElementById("btn2");
+        btn.addEventListener('click', debounce(getBtn, 1000, true))
+    </script>
+</body>
+
+</html>

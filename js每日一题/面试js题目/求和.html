@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function add(n) {
+            var fn = function(m) {
+                console.log('fn', fn)
+                return add(n + m);
+            };
+
+            fn.valueOf = function() {
+                console.log(n, 'valueOf');
+                return n; //valueOf返回函数本身
+            };
+
+            fn.toString = function() {
+                console.log(n, 'toString');
+                return '' + n; //返回相应的字符串
+            };
+
+            return fn;
+        }
+        // console.log(add(1)(2)(3), 'add(1)(2)(3)')
+
+        function sum(...args) {
+            let num = args.reduce((pre, cur) => {
+                return pre + cur
+            }, 0)
+            var sumTotal = function(...arr) {
+                let y = arr.reduce((pre, cur) => {
+                    return pre + cur
+                }, 0)
+                num += y
+                    // console.log('sumTotal', num, sumTotal)
+                return sumTotal
+            }
+            sumTotal.valueOf = function() {
+                return num
+            }
+            return sumTotal
+        }
+
+        console.log(sum(1, 2, 3, 4).valueOf(), 'sum(1,2,3,4)')
+        console.log(sum(1)(2, 3)(4).valueOf(), 'sum(1)(2,3)(4)')
+        console.log(sum(1)(2, 3, 4).valueOf(), 'sum(1)(2,3,4)')
+        console.log(sum(1)(2)(3)(4).valueOf(), 'sum(1)(2)(3)(4)')
+    </script>
+</body>
+
+</html>

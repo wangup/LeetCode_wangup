@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>节流优化</title>
+
+</head>
+
+<body>
+    <button id="btn2">点击</button>
+    <script>
+        // 触发事件间隔大于等于指定的时间才会执行回调函数
+        function throttle(fun, wait) {
+            let pre = 0
+            return function() {
+                let now = new Date()
+                if (wait <= now - pre) {
+                    fun.apply(this, arguments)
+                    pre = new Date()
+                }
+            }
+        }
+
+        function throttle3(fn, wait) {
+            let timer = null
+            let args = arguments
+            return function() {
+                if (!timer) {
+                    timer = setTimeout(() => {
+                        fn.apply(this, args)
+                        timer = null
+                    }, wait)
+                }
+            }
+        }
+
+        // 立即执行，之后再继续节流
+        /**
+         * underscore 立即执行的节流函数，
+         * 用 计时器 实现，timer === null 时，才进行 timer = setTimeout 的赋值，因为赋值了嘛，所以 timer !== null 即不会执行函数，然后到 wait 之后才重新将 timer 赋值为 null，即允许函数执行
+         * @param  {function} fn        回调函数
+         * @param  {number}   wait        表示时间窗口的间隔
+         * @return {function}             返回客户调用函数
+         */
+        function throttle2(fn, wait) {
+            let timer = null,
+                args = arguments
+            return function() {
+                if (!timer) {
+                    fn.apply(this, args)
+                    timer = setTimeout(() => {
+                        timer = null
+                    }, wait)
+                }
+            }
+        }
+
+        function getBtn() {
+            console.log('getBtn')
+        }
+        var btn = document.getElementById("btn2");
+        btn.addEventListener('click', throttle2(getBtn, 2000))
+    </script>
+</body>
+
+</html>

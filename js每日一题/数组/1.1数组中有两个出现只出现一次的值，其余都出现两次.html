@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>找出两个出现一次的值</title>
+</head>
+
+<body>
+    <script>
+        let arr = [1, 3, 4, 12, 5, 3, 5, 1]
+        let findArrNum = function(arr) {
+            let target = []
+            let map = {}
+            let maxNum = 0
+            for (let item of arr) {
+                if (!map[item]) {
+                    map[item] = 1
+                } else {
+                    map[item]++
+                }
+                if (item >= maxNum) {
+                    maxNum = item
+                }
+            }
+            for (let key = 0; key <= maxNum; key++) {
+                if (map[key] == 1) {
+                    target.push(key)
+                }
+            }
+            return target
+        }
+        console.log(findArrNum(arr))
+    </script>
+</body>
+
+</html>

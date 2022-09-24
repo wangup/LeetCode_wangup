@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>最大连续数列之和</title>
+</head>
+
+<body>
+    <script>
+        // 对于一个有正有负的整数数组，请找出总和最大的连续数列。
+        // 给定一个int数组A和数组大小n，请返回最大的连续数列的和。保证n的大小小于等于3000。
+
+        let str = [1, 2, 3, -6, 1]
+            // max = 6
+        var getMaxSum = function(str) {
+            if (!str || str.length === 0) {
+                return 0
+            }
+            let fn = []
+            fn[0] = str[0]
+            for (let i = 1; i < str.length; i++) {
+                fn[i] = Math.max(fn[i - 1] + str[i], str[i])
+            }
+            // console.log("fn", fn)
+            let result = str[0]
+                // for (let i = 0; i < fn.length; i++) {
+                //     result = Math.max(result, fn[i])
+                // }
+            for (let key in fn) {
+                console.log('key', key)
+                result = Math.max(result, fn[key])
+            }
+            return result
+        }
+        console.log(getMaxSum(str))
+    </script>
+</body>
+
+</html>

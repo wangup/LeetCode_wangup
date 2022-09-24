@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>反转链表</title>
+</head>
+
+<body>
+    <script>
+        // 方法一：普通法
+        // function reverseList(head) {
+        //     // 暂存当前节点
+        //     let current = head
+        //     let p = null
+        //     while (current) {
+        //         let temp = current.next
+        //         current.next = p
+        //         p = current
+        //         current = temp
+        //     }
+        //     return p
+        // }
+        // 
+
+        // 方法二：递归法
+        function reverseList(head) {
+            return reverseListInt(head, null)
+        }
+
+        function reverseListInt(head, newHead) {
+            if (!head) return newHead
+            let temp = head.next
+            head.next = newHead
+            let node = reverseListInt(temp, head)
+            return node
+        }
+    </script>
+</body>
+
+</html>

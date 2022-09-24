@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>防抖与节流</title>
+    <style>
+        .box {
+            width: 100px;
+            height: 100px;
+            background-color: aquamarine;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>防抖与节流</h1>
+    <input type="text" placeholder="请输入电话">
+    <div class="box"></div>
+    <script>
+        let telInput = document.querySelector('input')
+        telInput.addEventListener('input', debounce(demo1, 2000))
+            // 防抖封装
+        function debounce(fn, wait) {
+            let time = null
+            return function(...args) {
+                let context = this
+                if (time) clearTimeout(time)
+                time = setTimeout(() => {
+                    fn.apply(context, args)
+                }, wait)
+            }
+        }
+
+        // 节流保证一定时间内只请求一次
+        let box = document.querySelector('.box')
+        box.addEventListener('click', throttle(demo2, 2000))
+
+        function throttle(fn, wait) {
+            // 这个方式不好，后面的setTimeout开始不管用，fn被调用的时间开始缩短
+            // let time = null
+            // return function(...args) {
+            //     let context = this
+            //     if (!time) {
+            //         setTimeout(() => {
+            //             fn.apply(context, args)
+            //             time = null
+            //         }, wait)
+            //     }
+            // }
+            let pre = new Date()
+            return function() {
+                let context = this
+                let cur = new Date()
+                if (wait <= cur - pre) {
+                    fn.apply(context, arguments)
+                    pre = new Date()
+                }
+            }
+        }
+
+        function demo1() {
+            console.log('发起请求')
+        }
+
+        function demo2() {
+            console.log('节流请求')
+        }
+    </script>
+</body>
+
+</html>

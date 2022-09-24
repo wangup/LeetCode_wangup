@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>构造函数和原型链实现继承</title>
+    <style>
+        #child {
+            height: 100px;
+            background-color: aquamarine;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <div id="child" style="width: 100px;">我</div>
+    </div>
+    <script>
+        function Parent(name) {
+            this.parent = name;
+            this.age = 18
+        }
+        Parent.prototype.say = function() {
+            console.log(`${this.parent}: 你打篮球的样子像kunkun`)
+        }
+
+        function Child(name, ...args) {
+            // 获取父类的参数以及修改后的参数数据，如果不加args就是获得参数的初始值
+            Parent.call(this, ...args)
+            this.child = name;
+        }
+        /** 
+     1. 这一步不用Child.prototype =Parent.prototype的原因是怕共享内存，修改父类原型对象就会影响子类
+     2. 不用Child.prototype = new Parent()的原因是会调用2次父类的构造方法（另一次是call），会存在一份多余的父类实例属性
+    3. Object.create是创建了父类原型的副本，与父类原型完全隔离
+    */
+        // Child1.prototype = new Parent1()
+        Child.prototype = Object.create(Parent.prototype)
+        Child.prototype.say = function() {
+            console.log(`${this.parent}好，我是练习时长两年半的${this.child},已经${this.age}`);
+        }
+
+        // 注意记得把子类的构造指向子类本身
+        Child.prototype.constructor = Child;
+
+        var parent = new Parent('father');
+        parent.say() // father: 你打篮球的样子像kunkun
+
+        var child = new Child('cxk', 'wmc');
+        child.say() // father好，我是练习时长两年半的cxk
+    </script>
+    <!-- <script>
+      //继承组合最优解法
+      function Parent5 () {
+        this.name = 'parent5';
+        this.play = [1, 2, 3];
+      }
+      function Child5() {
+        Parent5.call(this);
+        this.type = 'child5';
+      }
+      Child5.prototype = Object.create(Parent5.prototype);
+      Child5.prototype.constructor = Child5;
+    </script> -->
+</body>
+
+</html>

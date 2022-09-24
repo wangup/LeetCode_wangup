@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function Foo() {
+            getName = function() {
+                console.log(1)
+            }
+            return this
+        }
+
+        Foo.getName = function() {
+            console.log(2)
+        }
+
+        Foo.prototype.getName = function() {
+            console.log(3)
+        }
+
+        function getName() {
+            console.log(5)
+        }
+        Foo.getName() // 2
+        getName() // 5
+        Foo().getName() //1
+        new Foo().getName() //3
+
+        // 如果Foo().getName()的话，相当于window.getName()
+    </script>
+</body>
+
+</html>

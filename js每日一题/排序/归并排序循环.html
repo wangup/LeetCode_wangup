@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>归并排序循环</title>
+</head>
+
+<body>
+    <script>
+        function mergeSort(num, left, right, temp) {
+            merge(num, left, right, temp)
+            return num
+        }
+
+        function merge(num, left, right, temp) {
+            // let mid = Math.floor((left + right) / 2)
+            let mid = left + (right - left) / 2
+            let leftIndex = left
+            let rightIndex = mid + 1
+            merge(num, left, mid, temp)
+            merge(num, mid + 1, right, temp)
+            let tempIndex = left
+            while (leftIndex <= mid && rightIndex <= right) {
+                if (num[leftIndex] < num[rightIndex]) {
+                    temp[tempIndex++] = num[leftIndex++]
+                } else {
+                    temp[tempIndex++] = num[rightIndex++]
+                }
+            }
+            while (leftIndex <= mid) {
+                temp[tempIndex++] = num[leftIndex++]
+            }
+            while (rightIndex <= right) {
+                temp[tempIndex++] = num[rightIndex++]
+            }
+            tempIndex = left
+            for (let i = left; i <= right; i++) {
+                num[i] = temp[tempIndex++]
+            }
+            return num
+        }
+        var num = [9, 3, 4, 2, 6, 1, 6, 8]
+        let len = num.length - 1
+        console.log(mergeSort(num, 0, len, []))
+    </script>
+</body>
+
+</html>

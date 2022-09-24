@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>两数之和</title>
+</head>
+
+<body>
+    <script>
+        let arr = [2, 1, 5, 7, 8],
+            target = 12
+        var findTarget = function(arr, target) {
+            let map = new Map()
+            for (let key in arr) {
+                let num = arr[key]
+                let mid = target - num
+                if (map.has(mid)) {
+                    return [map.get(mid), key]
+                }
+                map.set(num, key)
+            }
+        }
+
+        console.log(findTarget(arr, target))
+    </script>
+</body>
+
+</html>

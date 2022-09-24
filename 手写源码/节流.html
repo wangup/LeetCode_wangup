@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>节流</title>
+    <style>
+        #btn {
+            width: 100px;
+            height: 100px;
+            background-color: violet;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="btn">我是</div>
+    <script>
+        let btn = document.getElementById('btn')
+
+        function throttle(func, wait) {
+            let time = null
+            return function() {
+                let args = arguments
+                if (!time) {
+                    time = setTimeout(() => {
+                        func.apply(this, args)
+                        time = null
+                    }, wait)
+                }
+            }
+        }
+
+        function clickBtn() {
+            console.log('我是谁？')
+        }
+        btn.addEventListener('click', throttle(clickBtn, 1000))
+    </script>
+</body>
+
+</html>

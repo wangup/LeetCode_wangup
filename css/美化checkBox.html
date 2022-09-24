@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>checkBox</title>
+    <style>
+        #check1+label {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            /* 用BFC使得内部元素不影响外部元素 */
+            position: absolute;
+            /* float: left; */
+            border: 1px solid gray;
+        }
+        
+        #check1:checked+label::before {
+            display: block;
+            content: '\2714';
+            text-align: center;
+            font-size: 16px;
+            background-color: blue;
+            color: red;
+        }
+        
+        #check1 {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <input type="checkbox" id="check1" />
+    <label for="check1"></label>
+</body>
+
+</html>

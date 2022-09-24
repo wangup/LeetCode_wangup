@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>整数转罗马</title>
+</head>
+
+<body>
+    <script>
+        // 罗马数字包含以下七种字符： I， V， X， L，C，D 和 M。
+        // 罗马数字中小的数字在大的数字的右边。
+        // 罗马数字中小的数字在大的数字时会相减，数字 1 在数字 5 的左边，所表示的数等于大数 5 减小数 1 得到的数值 4 
+        // 字符          数值
+        // I             1
+        // V             5
+        // X             10
+        // L             50
+        // C             100
+        // D             500
+        // M             1000
+        var intToRoman = function(num) {
+            const valueSymbols = [
+                [1000, "M"],
+                [900, "CM"],
+                [500, "D"],
+                [400, "CD"],
+                [100, "C"],
+                [90, "XC"],
+                [50, "L"],
+                [40, "XL"],
+                [10, "X"],
+                [9, "IX"],
+                [5, "V"],
+                [4, "IV"],
+                [1, "I"]
+            ];
+            const res = []
+            for (let [value, symbol] of valueSymbols) {
+                while (num - value >= 0) {
+                    num -= value
+                    res.push(symbol)
+                }
+            }
+            return res.join('')
+        };
+        // const num = 3 //III
+        // const num = 4 //"IV"
+        const num = 9 //"IX"
+            // const num = 58 //"LVIII"
+            // const num = 1994 // "MCMXCIV"
+        console.log(intToRoman(num))
+    </script>
+</body>
+
+</html>

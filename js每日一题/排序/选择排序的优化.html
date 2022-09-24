@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>选择排序的优化</title>
+</head>
+
+<body>
+    <script>
+        // 选出最大和最小值，将最小值放在最前面，最大值放在最后面
+        function selectSort(num) {
+            let left = 0,
+                right = num.length - 1
+            while (left < right) {
+                let minIndex = left,
+                    maxIndex = right
+                for (let index = left; index <= right; index++) {
+                    if (num[index] < num[minIndex]) {
+                        minIndex = index
+                    }
+                    if (num[index] > num[maxIndex]) {
+                        maxIndex = index
+                    }
+                }
+                // 将最大值交换到 right的位置
+                [num[maxIndex], num[right]] = [num[right], num[maxIndex]]
+                //此处是先排最大值的位置，所以得考虑最小值（arr[minIndex]）在最右位置（right）的情况。
+                if (minIndex === right) {
+                    minIndex = maxIndex
+                }
+                [num[minIndex], num[left]] = [num[left], num[minIndex]]
+                left++
+                right--
+            }
+            return num
+        }
+        let num = [9, 3, 4, 2, 16, 1, 6, 8]
+        console.log(selectSort(num))
+    </script>
+</body>
+
+</html>

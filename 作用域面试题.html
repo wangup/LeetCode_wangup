@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        var a = 1;
+
+        var z = 1
+
+        function tim() {
+            function cope() {
+                var x = 2;
+                y = 3
+            }
+            var y = 4
+            cope()
+            console.log(y) // 3
+        }
+
+        tim()
+
+        var name = 'windowNAme'
+
+        var a = {
+            name: "wmc",
+            fn1: function() {
+                console.log(this.name)
+
+            },
+            fn2: function() {
+                    let _this = this
+                    setTimeout(function() {
+                        _this.fn1()
+                    }, 200)
+                }
+                // console.log(this)
+        }
+        a.fn2()
+    </script>
+</body>
+
+</html>

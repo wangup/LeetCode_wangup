@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>借助构造函数</title>
+</head>
+
+<body>
+    <script>
+        function Parent1() {
+            this.name = 'parent1 的属性';
+        }
+
+        function Child1() {
+            Parent1.call(this); //【重要】此处用 call 或 apply 都行：改变 this 的指向
+            this.type = 'child1 的属性';
+        }
+        Parent1.prototype.say = function() {
+            console.log('say')
+        }
+        console.log(new Child1);
+    </script>
+</body>
+
+</html>

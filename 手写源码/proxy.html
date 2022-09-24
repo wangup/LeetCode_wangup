@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 原始对象
+        const data = {
+            name: 'Jane',
+            age: 21
+        }
+
+        // const proxyData = new Proxy(data, {
+        //     get(target, prop) {
+        //         console.log('%c 调用get', target, prop)
+        //         return Reflect.get(target, prop)
+        //     },
+        //     set(target, prop, value) {
+        //         console.log('%c 调用set', target, prop, value)
+        //         return Reflect.set(target, prop, value) // Reflect通过代理对象更改目标对象的属性值
+        //     },
+        //     deleteProperty(target, prop) {
+        //         Reflect.deleteProperty(target, prop)
+        //         return true
+        //     }
+        // })
+
+        // console.log('proxyData.name -> ', proxyData.name) // Jane
+        // console.log('data.name -> ', data.name) // Jane
+        // proxyData.name = 'Jian'
+        // console.log('proxyData.name -> ', proxyData.name) // Jian
+        // console.log('data.name -> ', data.name) // Jian
+        //     // delete proxyData.name
+        // console.log(proxyData, 'proxyData')
+        const dataArr = [1, 2]
+        Object.keys(dataArr).forEach(key => {
+            let oldValue = dataArr[key]
+            Object.defineProperty(dataArr, key, {
+                get() {
+                    console.log('%c 调用get', 'color: green', key)
+                    return oldValue
+                },
+                set(value) {
+                    console.log('%c 调用set', 'color: blue')
+                    oldValue = value
+                }
+            })
+        });
+        ['push', 'pop', 'shift', 'unshift', 'splice', 'sort', 'reverse'].forEach(method => {
+            let original = Array.prototype[method]
+            Object.defineProperty(Array.prototype, method, {
+                value() {
+                    console.log('%c 调用数组方法', 'color: green', method)
+                    original.apply(this, arguments)
+                }
+            })
+        })
+        const proxyData = new Proxy(dataArr, {
+            get(target, prop, receiver) {
+                console.log('%c 调用get', 'color: green', prop, receiver)
+                return Reflect.get(target, prop, receiver)
+            },
+            set(target, prop, value, receiver) {
+                console.log('%c 调用set', 'color: red', prop, value, receiver)
+                return Reflect.set(target, prop, value, receiver)
+            },
+        })
+
+        proxyData[0] = 3
+        proxyData.push(3)
+        console.log('proxyproxy:', proxyData)
+
+        dataArr[0] = 3 // 调用set
+        dataArr.push(3) // 不调用set
+        console.log(dataArr, 'dataArr')
+    </script>
+</body>
+
+</html>

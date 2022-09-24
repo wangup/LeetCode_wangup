@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>归并排序</title>
+</head>
+
+<body>
+    <script>
+        // function mergeSort(num) {
+        //     if (num.length <= 1) return num
+        //     let mid = Math.floor(num.length / 2)
+        //     let left = num.slice(0, mid)
+        //     let right = num.slice(mid)
+        //     return merge(mergeSort(left), mergeSort(right))
+        // }
+
+        // function merge(front, end) {
+        //     let temp = []
+        //     while (front.length && end.length) {
+        //         if (front[0] < end[0]) {
+        //             temp.push(front.shift())
+        //         } else {
+        //             temp.push(end.shift)
+        //         }
+        //     }
+        //     while (front.length) {
+        //         temp.push(front.shift())
+        //     }
+        //     while (end.length) {
+        //         temp.push(end.shift())
+        //     }
+        //     return temp
+        // }
+        function mergeSort(num, left, right) {
+            if (left < right) {
+                let mid = Math.floor((left + right) / 2)
+                    // 向左进行递归分解
+                mergeSort(num, left, mid)
+                    // 向右进行递归分解
+                mergeSort(num, mid + 1, right)
+                    // 进行合并
+                merge(num, left, right)
+            }
+            return num
+        }
+
+        function merge(num, left, right) {
+            let temp = []
+            let mid = Math.floor((left + right) / 2)
+            let leftIndex = left
+            let rightIndex = mid + 1
+            let tempIndex = 0
+            while (leftIndex <= mid && rightIndex <= right) {
+                if (num[leftIndex] < num[rightIndex]) {
+                    temp[tempIndex++] = num[leftIndex++]
+                } else {
+                    temp[tempIndex++] = num[rightIndex++]
+                }
+            }
+            while (leftIndex <= mid) {
+                temp[tempIndex++] = num[leftIndex++]
+            }
+            while (rightIndex <= right) {
+                temp[tempIndex++] = num[rightIndex++]
+            }
+            tempIndex = 0
+            for (let i = left; i <= right; i++) {
+                num[i] = temp[tempIndex++]
+            }
+            return num
+        }
+        var num = [9, 3, 4, 2, 16, 1, 6, 8]
+        let len = num.length - 1
+        console.log(mergeSort(num, 0, len))
+    </script>
+</body>
+
+</html>
