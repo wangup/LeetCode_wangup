@@ -1,4 +1,4 @@
-Function.prototype.myCall = function(context = window) {
+Function.prototype.myCall = function(context = window, ...args) {
     // 在context上加一个唯一值不影响context上的属性
     let key = Symbol('key')
         // context为调用的上下文,this此处为函数，将这个函数作为context的方法
@@ -13,12 +13,11 @@ Function.prototype.myCall = function(context = window) {
     return result
 }
 
-function f(a, b) {
-    console.log(a + b, 'a+b')
+function fn(a, b) {
+    console.log('a+b', a + b)
     console.log(this.name)
 }
 let obj = {
-    name: 1
+    name: 'wmc'
 }
-f.myCall(obj, 1, 2)
-    // f(1, 2)
+fn.myCall(obj, 1, 2)

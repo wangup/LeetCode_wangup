@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+
+    </style>
+</head>
+
+<body>
+
+    <div id="root" class="tt">
+        <div title="tt1">hello1</div>
+        <div title="tt2">hello2</div>
+        <div title="tt3">hello3</div>
+        <ul>
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+        </ul>
+    </div>
+
+
+    <script>
+        // 用内存去表述DOM
+        // 将真实DOM转化为虚拟DOM
+        // <div />  => {tag:'div'}   元素转化
+        // 文本节点 => {tag:undefined,value:'文本节点'}   文本节点转化
+        // <div title="1" class="c"  />  => { tag:'div',data:{ title:'1',class:"c" } }   多属性转化
+        // <div><div /></div> => {tag:'div',children:[{ tag:'div' }]} 
+
+        // 用构造函数来 进行以上转换
+        // 这一次我们用class语法
+
+        class VNode {
+            // 构造函数
+            constructor(tag, data, value, type) {
+                // tag:用来表述 标签  data：用来描述属性  value：用来描述文本 type：用来描述类型
+                this.tag = tag && tag.toLowerCase(); //文本节点时 tagName是undefined
+                this.data = data;
+                this.value = value;
+                this.type = type;
+                this.children = [];
+
+            }
+            appendChild(vnode) {
+                this.children.push(vnode);
+            }
+        }
+        /**
+        利用递归 来遍历DOM元素 生成虚拟DOM
+        Vue中的源码使用 栈结构  ，使用栈存储 父元素来实现递归生成
+        */
+        function getVNode(node) {
+            // console.log('node', node)
+            let nodeType = node.nodeType;
+            let _vnode = null;
+
+            if (nodeType === 1) {
+                // 元素
+                let nodeName = node.nodeName; //元素名 什么标签？
+                let attrs = node.attributes; //属性  伪数组 元素上的属性
+                let _attrObj = {};
+                for (let i = 0; i < attrs.length; i++) { //attrs[ i ] 属性节点（nodeType == 2) 是对象
+                    _attrObj[attrs[i].nodeName] = attrs[i].nodeValue; //attrs[ i ].nodeName:属性名 attrs[ i ].nodeValue：属性值
+                }
+                _vnode = new VNode(nodeName, _attrObj, undefined, nodeType); //标签名（DIV UI LI...）、所有属性对象、value值（只有文本标签有）、type类型(是元素还是文本)
+                // 考虑node的子元素
+                let childNodes = node.childNodes;
+                for (let i = 0; i < childNodes.length; i++) {
+                    _vnode.appendChild(getVNode(childNodes[i])); //递归
+                }
+            } else if (nodeType === 3) {
+                // 文本节点
+                _vnode = new VNode(undefined, undefined, node.nodeValue, nodeType); //无标签名、无属性、有value、有type
+            }
+            return _vnode;
+        }
+
+        let root = document.querySelector("#root");
+
+        let vroot = getVNode(root); //虚拟DOM
+        console.log(vroot, '虚拟DOM');
+        // 将vNode转化为真正的DOM
+        function parseNode(vnode) {
+            // 在真正的vue中 也是使用递归+栈 数据类型
+            // 创建真实的DOM
+            let type = vnode.type; //拿到虚拟DOM的type,元素？文本？
+            let _node = null; //用来放创建出来的元素  真实node
+            if (type === 3) {
+                // 文本节点
+                return document.createTextNode(vnode.value); //直接创建文本节点
+            } else if (type === 1) {
+                // 元素节点
+                _node = document.createElement(vnode.tag); //用tag名创建对应的标签
+
+                // 属性
+                let data = vnode.data; //键值对类型  真正的vue中要比这复杂的多（事件、指令等）
+                Object.keys(data).forEach(key => {
+                        let attrName = key; //属性名
+                        let attrValue = data[key]; //属性值
+                        _node.setAttribute(attrName, attrValue); //社会元素的属性
+                    })
+                    // 子元素
+                let children = vnode.children;
+                children.forEach(subvnode => {
+                    _node.appendChild(parseNode(subvnode)); //将子元素放进去  递归转换子元素
+                });
+                return _node;
+            };
+        }
+
+        let dom2 = parseNode(vroot); //虚拟dom转换成真实dom
+        console.log(dom2, '真实DOM'); //打印出来的DOM和真实dom是一样的
+    </script>
+
+
+</body>
+
+</html>
