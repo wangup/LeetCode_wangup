@@ -10,8 +10,27 @@ function cur(fn, ...args) {
         return cur(fn, ...args, ...reset)
     }
 }
-const add = (x, y, z) => x + y + z
-const curAdd = cur(add, 1)
-console.log(curAdd(1)(2)(3))
-console.log(curAdd(2)(3))
-console.log(curAdd(2, 3))
+// const add = (x, y, z) => x + y + z
+// const curAdd = cur(add, 1)
+// console.log(curAdd(1)(2)(3))
+// console.log(curAdd(2)(3))
+// console.log(curAdd(2, 3))
+async function async1() {
+    console.log('async1 start');
+    await new Promise(resolve => {
+        console.log('promise1')
+        resolve('promise resolve')
+    })
+    console.log('async1 success');
+    return 'async1 end'
+}
+console.log('srcipt start')
+async1().then(res => {
+    console.log(res)
+})
+new Promise(resolve => {
+    console.log('promise2')
+    setTimeout(() => {
+        console.log('timer')
+    })
+})

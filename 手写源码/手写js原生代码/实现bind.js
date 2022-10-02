@@ -4,7 +4,9 @@ Function.prototype.myBind = function(context = window) {
     let args = arguments[1] || []
     let fBind = function() {
         console.log(arguments, 'arguments') // [Arguments] { '0': 4 } arguments
-        return self.apply(this instanceof fBind ? this : context, [args, ...Array.prototype.slice.call(arguments)])
+        let [...arr] = arguments
+        // return self.apply(this instanceof fBind ? this : context, [args, Array.prototype.slice.call(arguments)])
+        return self.apply(this instanceof fBind ? this : context, [args, ...arr])
     }
 
     // 保证原函数的原型对象上的属性不丢失
